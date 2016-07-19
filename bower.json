@@ -1,0 +1,35 @@
+{
+  "name": "my-box-ui",
+  "description": "Dojo Boilerplate. A basic starting point for writing apps with Dojo.",
+  "main": "",
+  "authors": [
+    "clintatmo <clintatmo@gmail.com>"
+  ],
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "JavaScript",
+    "Dojo",
+    "Boilerplate",
+    "Example",
+    "Howto"
+  ],
+  "homepage": "https://github.com/csnover/dojo-boilerplate",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "dgrid": "~1.1.0",
+    "dojo-util": "dojo/util#~1.11.2",
+    "put-selector": "~0.3.6",
+    "xstyle": "~0.3.2",
+    "dojo": "dojo/dojo#~1.11.2",
+    "dijit": "dojo/dijit#~1.11.2",
+    "dojox": "dojo/dojox#~1.11.2"
+  }
+}
