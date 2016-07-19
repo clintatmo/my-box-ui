@@ -20,10 +20,36 @@
 
 	     NOTE: `build.sh` is responsible for removing the "isDebug" flag when deploying to production. If you modify
 	     this flag at all, you will break the build! -->
+
+	<div data-dojo-type="dijit/MenuBar" id="navMenu">
+		<div data-dojo-type="dijit/PopupMenuBarItem">
+			<span>File</span>
+			<div data-dojo-type="dijit/DropDownMenu" id="fileMenu">
+				<div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){alert('file 1');}">File #1</div>
+				<div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){alert('file 2');}">File #2</div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit/PopupMenuBarItem">
+			<span>Edit</span>
+			<div data-dojo-type="dijit/DropDownMenu" id="editMenu">
+				<div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut',
+                                    onClick:function(){alert('cut!')}">Cut</div>
+				<div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCopy',
+                                    onClick:function(){alert('copy!')}">Copy</div>
+				<div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconPaste',
+                                    onClick:function(){alert('paste!')}">Paste</div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit/MenuBarItem">
+			Save
+		</div>
+	</div>
+
 	<script>
 		var dojoConfig = {
 			// Enable the AMD loader
 			async: true,
+			parseOnLoad: true,
 			// Define the base URL for all of our modules and packages
 			baseUrl: '.',
 			// Enable debugging
@@ -36,7 +62,10 @@
 				'dgrid',
 				'dijit',
 				'dojo',
+				'dojo-themes',
+				'dojo-util',
 				'dojox',
+				'dstore',
 				'put-selector',
 				'xstyle'
 			],
@@ -51,6 +80,11 @@
 	<!-- Load the application. Note that this module ID is hard-coded in build.sh in order to provide
 	     an optimised build that loads as few as one script for the entire application. If you change the name or
 	     location of this module, you will need to update build.sh too. -->
-	<script>require([ 'app/main' ]);</script>
+	<script>
+		require([ 'app/main' ]);
+		require(["dojo/parser", "dijit/MenuBar", "dijit/MenuBarItem", "dijit/PopupMenuBarItem",
+			"dijit/DropDownMenu", "dijit/MenuItem"]);
+	</script>
+
 </body>
 </html>

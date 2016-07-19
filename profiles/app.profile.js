@@ -48,7 +48,10 @@ var profile = {
 		'dgrid',
 		'dijit',
 		'dojo',
+		'dojo-themes',
+		'dojo-util',
 		'dojox',
+		'dstore',
 		'put-selector',
 		'xstyle'
 	],
