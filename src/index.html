@@ -7,7 +7,7 @@
 	     the build system to combine & minify it. -->
 	<link rel="stylesheet" href="app/resources/app.css">
 </head>
-<body class="claro">
+<body class="dbootstrap">
 	<!-- It's important to get something displayed to users as quickly as possible; here, we show a very basic loading
 	     screen, which becomes hidden once the application loads -->
 	<div class="loading">Loading…</div>
@@ -21,27 +21,30 @@
 	     NOTE: `build.sh` is responsible for removing the "isDebug" flag when deploying to production. If you modify
 	     this flag at all, you will break the build! -->
 
-	<div data-dojo-type="dijit/MenuBar" id="navMenu">
-		<div data-dojo-type="dijit/PopupMenuBarItem">
-			<span>File</span>
-			<div data-dojo-type="dijit/DropDownMenu" id="fileMenu">
-				<div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){alert('file 1');}">File #1</div>
-				<div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){alert('file 2');}">File #2</div>
+	<div id="controlDisplay" style="display:none;">
+		<div data-dojo-type="dijit/MenuBar" id="navMenu">
+			<img src="app/resources/images/Delta-Arrow-logo-219x286.png" class="navbar-logo">
+			<div data-dojo-type="dijit/PopupMenuBarItem">
+				<span>File</span>
+				<div data-dojo-type="dijit/DropDownMenu" id="fileMenu">
+					<div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){alert('file 1');}">File #1</div>
+					<div data-dojo-type="dijit/MenuItem" data-dojo-props="onClick:function(){alert('file 2');}">File #2</div>
+				</div>
 			</div>
-		</div>
-		<div data-dojo-type="dijit/PopupMenuBarItem">
-			<span>Edit</span>
-			<div data-dojo-type="dijit/DropDownMenu" id="editMenu">
-				<div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut',
-                                    onClick:function(){alert('cut!')}">Cut</div>
-				<div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCopy',
-                                    onClick:function(){alert('copy!')}">Copy</div>
-				<div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconPaste',
-                                    onClick:function(){alert('paste!')}">Paste</div>
+			<div data-dojo-type="dijit/PopupMenuBarItem">
+				<span>Edit</span>
+				<div data-dojo-type="dijit/DropDownMenu" id="editMenu">
+					<div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut',
+										onClick:function(){alert('cut!')}">Cut</div>
+					<div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCopy',
+										onClick:function(){alert('copy!')}">Copy</div>
+					<div data-dojo-type="dijit/MenuItem" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconPaste',
+										onClick:function(){alert('paste!')}">Paste</div>
+				</div>
 			</div>
-		</div>
-		<div data-dojo-type="dijit/MenuBarItem">
-			Save
+			<div data-dojo-type="dijit/MenuBarItem">
+				Save
+			</div>
 		</div>
 	</div>
 
@@ -67,7 +70,11 @@
 				'dojox',
 				'dstore',
 				'put-selector',
-				'xstyle'
+				'xstyle',
+				{
+					location: 'dbootstrap',
+					name: 'dbootstrap'
+				}
 			],
 			// Use the smaller, faster "lite" CSS selector engine, which works in all browsers IE8+
 			selectorEngine: 'lite',
@@ -82,9 +89,97 @@
 	     location of this module, you will need to update build.sh too. -->
 	<script>
 		require([ 'app/main' ]);
-		require(["dojo/parser", "dijit/MenuBar", "dijit/MenuBarItem", "dijit/PopupMenuBarItem",
-			"dijit/DropDownMenu", "dijit/MenuItem"]);
+		require(['dbootstrap']);
+		require(
+
+				[
+					"dojo/dom",
+					"dojo/dom-style",
+					"dojo/parser",
+					"dijit/MenuBar",
+					"dijit/MenuBarItem",
+					"dijit/PopupMenuBarItem",
+					"dijit/DropDownMenu",
+					"dijit/MenuItem"
+				],
+
+				function (dom, domStyle) {
+					var controlDisplay = dom.byId("controlDisplay");
+					domStyle.set(controlDisplay, "display", "block");
+				}
+
+		);
 	</script>
+
+	<script type="text/template" id="dialog-template">
+		<div style="width:300px;">
+
+			<div class="dijitDialogPaneContentArea">
+				<div data-dojo-attach-point="contentNode">
+					{form}
+				</div>
+			</div>
+
+			<div class="dijitDialogPaneActionBar">
+				<div class="message" data-dojo-attach-point="messageNode"></div>
+				<button data-dojo-type="dijit.form.Button"
+						data-dojo-props=""
+						data-dojo-attach-point="submitButton">
+					OK
+				</button>
+
+				<button data-dojo-type="dijit.form.Button"
+						data-dojo-attach-point="cancelButton">
+					Cancel
+				</button>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/template" id="login-form-template">
+		<form
+				data-dojo-type="dijit.form.Form"
+				data-dojo-attach-point="form"
+				>
+
+			<table class="form">
+				<tr>
+					<td>Username</td>
+					<td>
+						<input data-dojo-type="dijit.form.ValidationTextBox"
+							   data-dojo-props='
+                            name: "username",
+                            required: true,
+                            maxLength: 64,
+                            trim: true,
+                            style: "width: 200px;"
+                            '
+								/>
+					</td>
+				</tr>
+
+				<tr>
+					<td>Password</td>
+					<td>
+						<input data-dojo-type="dijit.form.ValidationTextBox"
+							   type="password"
+							   data-dojo-props='
+                            name: "password",
+                            required: true,
+                            style: "width: 200px;"
+                            '
+								/>
+					</td>
+				</tr>
+
+			</table>
+
+		</form>
+	</script>
+
+	<!-- Modules -->
+	<script src="app/login/login.js"></script>
+
 
 </body>
 </html>
