@@ -63,22 +63,31 @@
 		 data-dojo-props="store: myStore, query: {id: 'world'}"></div>
 
 
-	<div id="appLayout" class="demoLayout" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design: 'headline'">
-		<div class="centerPanel" data-dojo-type="dijit/layout/TabContainer" data-dojo-props="region: 'center', tabPosition: 'top'">
-			<div data-dojo-type="dijit/layout/ContentPane" title="Group 1">
-				<h4>Group 1 Content</h4>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-					dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-					ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-					nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-					anim id est laborum.</p>
+	<div id="appLayout" class="appLayout" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design: 'headline'">
+
+		<div class="centerPanel" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'center'">
+
+			<div id="container" data-dojo-type="dojox/mobile/View">
+				<!-- An external view is loaded here when clicking the button above -->
+				<div class="centerPanel" data-dojo-type="dijit/layout/TabContainer" data-dojo-props="region: 'center', tabPosition: 'top'">
+					<div data-dojo-type="dijit/layout/ContentPane" title="Group 1">
+						<h4>Group 1 Content</h4>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+							dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+							ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+							nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+							anim id est laborum.</p>
+					</div>
+					<div data-dojo-type="dijit/layout/ContentPane" title="Group Two">
+						<h4>Group 2 Content</h4>
+					</div>
+					<div data-dojo-type="dijit/layout/ContentPane" title="Long Tab Label for this One">
+						<h4>Group 3 Content</h4>
+					</div>
+				</div>
 			</div>
-			<div data-dojo-type="dijit/layout/ContentPane" title="Group Two">
-				<h4>Group 2 Content</h4>
-			</div>
-			<div data-dojo-type="dijit/layout/ContentPane" title="Long Tab Label for this One">
-				<h4>Group 3 Content</h4>
-			</div>
+
+
 		</div>
 		<div class="edgePanel" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'top'">
 			<div id="controlDisplay" style="display:none;">
@@ -109,7 +118,19 @@
 			</div>
 		</div>
 		<div id="leftCol" class="edgePanel" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region: 'left', splitter: true">
-			<div data-dojo-type="dijit/Tree" id="myTree" data-dojo-props="model: myModel"></div>
+			<div data-dojo-type="dijit/layout/AccordionContainer" style="height: 300px;">
+				<div data-dojo-type="dijit/layout/ContentPane" title="Countries" data-dojo-props='onClick:onBtn1Clicked'>
+					<div data-dojo-type="dijit/Tree" id="myTree" data-dojo-props="model: myModel">
+
+					</div>
+				</div>
+				<div data-dojo-type="dijit/layout/ContentPane" title="This is as well" selected="true">
+
+				</div>
+				<div data-dojo-type="dijit/layout/ContentPane" title="This too">
+					Hi how are you? .....Great, thx
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -186,26 +207,43 @@
 
 				[
 					"dojo/dom",
-					"dojo/dom-style",
 					"dojo/domReady!",
+					"dojo/dom-style",
 					"dojo/parser",
 					"dijit/MenuBar",
 					"dijit/MenuBarItem",
 					"dijit/PopupMenuBarItem",
 					"dijit/DropDownMenu",
+					"dijit/Menu",
 					"dijit/MenuItem",
 					"dijit/Tree",
 					"dijit/layout/BorderContainer",
 					"dijit/layout/TabContainer",
 					"dijit/layout/ContentPane",
 					"dojo/store/Memory",
-					"dijit/tree/ObjectStoreModel"
+					"dijit/tree/ObjectStoreModel",
+					"dijit/layout/AccordionContainer",
+					"dijit/registry",
+					"dojox/mobile/ViewController",
+					"dojox/mobile/parser",
+					"dojox/mobile",
+					"dojox/mobile/Button"
 				],
 
-				function (dom, domStyle, parser) {
+				function (dom, domStyle, parser, registry, ViewController) {
 					//parser.parse();
 					var controlDisplay = dom.byId("controlDisplay");
 					domStyle.set(controlDisplay, "display", "block");
+
+					var vc = ViewController.getInstance();
+					onBtn1Clicked = function(e){
+						// the external view is loaded under the "container" view.
+						vc.openExternalView({
+							url:"app/athlete/view1.html",
+							transition:"slide"
+						}, registry.byId("container").containerNode);
+					};
+
 				}
 
 		);
